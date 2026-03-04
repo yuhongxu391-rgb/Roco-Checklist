@@ -2,10 +2,43 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>洛克王国全图鉴进度</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>洛克王国全宠物收集进度</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f7f6; }
+        .stats { position: sticky; top: 0; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .pet-item { background: white; margin: 5px 0; padding: 10px; border-radius: 4px; }
+    </style>
 </head>
 <body>
-    <h1>我的洛克王国宠物收集进度</h1>
-    <p>正在开发中，敬请期待...</p>
+
+<div class="stats">
+    <h2>收集进度统计</h2>
+    <p>总进度：<span id="progress-text">0 / 0</span></p>
+    <progress id="progress-bar" value="0" max="100" style="width: 100%;"></progress>
+</div>
+
+<div id="pet-list">
+    <div class="pet-item"><input type="checkbox" class="pet-cb"> 001 喵喵</div>
+    <div class="pet-item"><input type="checkbox" class="pet-cb"> 004 小火苗</div>
+    <div class="pet-item"><input type="checkbox" class="pet-cb"> 007 水蓝蓝</div>
+</div>
+
+<script>
+    const checkboxes = document.querySelectorAll('.pet-cb');
+    const progressText = document.getElementById('progress-text');
+    const progressBar = document.getElementById('progress-bar');
+
+    function updateStats() {
+        const total = checkboxes.length;
+        const checked = document.querySelectorAll('.pet-cb:checked').length;
+        progressText.innerText = `${checked} / ${total}`;
+        progressBar.value = (checked / total) * 100;
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener('change', updateStats));
+    updateStats(); // 初始化
+</script>
+
 </body>
 </html>
