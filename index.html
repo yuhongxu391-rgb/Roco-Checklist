@@ -2,43 +2,159 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>洛克王国全宠物收集进度</title>
+    <title>洛克王国全图鉴进度 - 框架测试版</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f4f7f6; }
-        .stats { position: sticky; top: 0; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .pet-item { background: white; margin: 5px 0; padding: 10px; border-radius: 4px; }
+        :root { --main-blue: #3498db; --bg: #f4f7f9; }
+        body { display: flex; font-family: 'PingFang SC', sans-serif; margin: 0; background: var(--bg); }
+        
+        /* 左侧导航栏 */
+        nav { width: 220px; background: #fff; height: 100vh; position: sticky; top: 0; border-right: 1px solid #e0e0e0; padding: 20px; }
+        nav h2 { font-size: 1.2rem; color: var(--main-blue); border-bottom: 2px solid; padding-bottom: 10px; }
+        nav ul { list-style: none; padding: 0; }
+        nav li { margin: 15px 0; }
+        nav a { text-decoration: none; color: #666; font-weight: 500; transition: 0.3s; }
+        nav a:hover { color: var(--main-blue); padding-left: 5px; }
+
+        /* 右侧内容区 */
+        main { flex: 1; padding: 40px; max-width: 1000px; }
+        .card { background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        
+        /* 进度条 */
+        .progress-box { margin: 15px 0; }
+        .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; color: #444; }
+        progress { width: 100%; height: 10px; border-radius: 5px; accent-color: var(--main-blue); }
+        
+        /* 宠物网格 */
+        .pet-group { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 20px; }
+        .pet-item { background: #fafafa; padding: 10px; border-radius: 6px; border: 1px solid #eee; font-size: 0.85rem; display: flex; align-items: center; cursor: pointer; }
+        .pet-item:hover { background: #f0f7ff; border-color: var(--main-blue); }
+        .pet-item input { margin-right: 8px; }
     </style>
 </head>
+
+
 <body>
 
-<div class="stats">
-    <h2>收集进度统计</h2>
-    <p>总进度：<span id="progress-text">0 / 0</span></p>
-    <progress id="progress-bar" value="0" max="100" style="width: 100%;"></progress>
+<nav>
+    <h2>快速目录</h2>
+    <div class="search-section" style="padding: 15px; border-bottom: 1px solid #eee;">
+    <input type="text" id="pet-search" placeholder="输入名字或编号搜索..." 
+           style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+    </div>
+    <ul>
+        <li><a href="#total-section">🏠 总收集进度</a></li>
+        <li><a href="#normal-section">✅ 常驻宠物</a></li>
+        <li><a href="#limited-section">📅 限时活动</a></li>
+        <li><a href="#pay-section">💰 氪金宠物</a></li>
+        <li><a href="#extinct-section">🚫 绝版宠物</a></li>
+    </ul>
+    
+    <a href="others.html" class="nav-item" style="background: #e3f2fd; font-weight: bold;">
+    <span>🚀 切换到：其他特殊分类</span>
+</a>
+</nav>
+
+<main>
+    <div id="total-section" class="card">
+        <h1 style="margin-top:0">📊 全图鉴总览</h1>
+        <div class="progress-box">
+            <div class="progress-header">
+                <span>全图鉴完成度</span>
+                <b id="total-stat">0 / 0 (0%)</b>
+            </div>
+            <progress id="total-bar" value="0" max="100"></progress>
+        </div>
+    </div>
+
+    <div id="normal-section" class="card">
+        <h2 style="color: #27ae60; border-bottom: 1px solid #eee; padding-bottom: 10px;">✅ 常驻宠物</h2>
+
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header">
+                    <b>📍 场景宠物</b>
+                    <span id="scene-stat">0 / 0 (0%)</span>
+                </div>
+                <progress id="scene-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="scene-pet-list"></div>
+        </div>
+
+        <hr style="margin: 30px 0; border: 0; border-top: 1px dashed #ddd;">
+
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header">
+                    <b>🏆 常驻活动</b>
+                    <span id="fixed-stat">0 / 0 (0%)</span>
+                </div>
+                <progress id="fixed-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="fixed-pet-list"></div>
+        </div>
+    </div>
+
+    <div id="limited-section" class="card">
+    <h2>📅 限时活动</h2>
+    
+    <div class="sub-category">
+        <div class="progress-box">
+            <div class="progress-header">
+                <span>📰 每周新闻</span>
+                <span id="news-stat">0 / 0 (0%)</span>
+            </div>
+            <progress id="news-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="news-pet-list"></div> </div>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+
+    <div class="sub-category">
+        <div class="progress-box">
+            <div class="progress-header">
+                <span>💬 论坛宠物</span>
+                <span id="bbs-stat">0 / 0 (0%)</span>
+            </div>
+            <progress id="bbs-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="bbs-pet-list"></div> </div>
 </div>
 
-<div id="pet-list">
-    <div class="pet-item"><input type="checkbox" class="pet-cb"> 001 喵喵</div>
-    <div class="pet-item"><input type="checkbox" class="pet-cb"> 004 小火苗</div>
-    <div class="pet-item"><input type="checkbox" class="pet-cb"> 007 水蓝蓝</div>
+
+    <div id="pay-section" class="card">
+    <h2 style="color: #e67e22; border-bottom: 1px solid #eee; padding-bottom: 10px;">💰 氪金宠物</h2>
+    
+    <div class="sub-category">
+        <div class="progress-box">
+            <div class="progress-header"><b>💎 常驻氪金</b> <span id="pay-fixed-stat">0/0 (0%)</span></div>
+            <progress id="pay-fixed-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="pay-fixed-list"></div>
+    </div>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+
+    <div class="sub-category" style="margin-top:20px;">
+        <div class="progress-box">
+            <div class="progress-header"><span>⏳ 限时氪金</span> <span id="pay-limit-stat">0/0 (0%)</span></div>
+            <progress id="pay-limit-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="pay-limit-list"></div>
+    </div>
 </div>
 
-<script>
-    const checkboxes = document.querySelectorAll('.pet-cb');
-    const progressText = document.getElementById('progress-text');
-    const progressBar = document.getElementById('progress-bar');
+<div id="extinct-section" class="card">
+    <h2 style="color: #95a5a6; border-bottom: 1px solid #eee; padding-bottom: 10px;">🚫 绝版宠物</h2>
+    <div class="progress-box">
+        <div class="progress-header"><span>已无法获得</span> <span id="extinct-stat">0/0 (0%)</span></div>
+        <progress id="extinct-bar" value="0" max="100"></progress>
+    </div>
+    <div class="pet-group" id="extinct-list"></div>
+</div>
+</main>
 
-    function updateStats() {
-        const total = checkboxes.length;
-        const checked = document.querySelectorAll('.pet-cb:checked').length;
-        progressText.innerText = `${checked} / ${total}`;
-        progressBar.value = (checked / total) * 100;
-    }
+<script src="script.js"></script>
 
-    checkboxes.forEach(cb => cb.addEventListener('change', updateStats));
-    updateStats(); // 初始化
-</script>
 
 </body>
 </html>

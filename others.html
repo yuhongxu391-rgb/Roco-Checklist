@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>洛克王国全图鉴进度 - 其他分类</title>
+    <style>
+        :root { --main-blue: #3498db; --bg: #f4f7f9; }
+        body { display: flex; font-family: 'PingFang SC', sans-serif; margin: 0; background: var(--bg); }
+        
+        /* 左侧导航栏 */
+        nav { width: 220px; background: #fff; height: 100vh; position: sticky; top: 0; border-right: 1px solid #e0e0e0; padding: 20px; }
+        nav h2 { font-size: 1.2rem; color: var(--main-blue); border-bottom: 2px solid; padding-bottom: 10px; }
+        nav ul { list-style: none; padding: 0; }
+        nav li { margin: 15px 0; }
+        nav a { text-decoration: none; color: #666; font-weight: 500; transition: 0.3s; }
+        nav a:hover { color: var(--main-blue); padding-left: 5px; }
+
+        /* 右侧内容区 */
+        main { flex: 1; padding: 40px; max-width: 1000px; }
+        .card { background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        
+        /* 进度条 */
+        .progress-box { margin: 15px 0; }
+        .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; color: #444; }
+        progress { width: 100%; height: 10px; border-radius: 5px; accent-color: var(--main-blue); }
+        
+        /* 宠物网格 */
+        .pet-group { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 20px; }
+        .pet-item { background: #fafafa; padding: 10px; border-radius: 6px; border: 1px solid #eee; font-size: 0.85rem; display: flex; align-items: center; cursor: pointer; }
+        .pet-item:hover { background: #f0f7ff; border-color: var(--main-blue); }
+        .pet-item input { margin-right: 8px; }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <h2>其他分类</h2>
+    <div class="search-section" style="padding: 15px; border-bottom: 1px solid #eee;">
+        <input type="text" id="pet-search" placeholder="输入名字或编号搜索..." 
+               style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+    </div>
+    <ul>
+        <li><a href="index.html">🏠 返回主页</a></li>
+        <li><a href="#king-section">👑 精灵王/奉神</a></li>
+        <li><a href="#awaken-section">✨ 觉醒重生</a></li>
+        <li><a href="#sentry-section">🛡️ 哨兵因因</a></li>
+        <li><a href="#annual-section">🧧 年费</a></li>
+        <li><a href="#gacha-section">🎰 扭蛋机</a></li>
+    </ul>
+</nav>
+
+<main>
+    <div id="king-section" class="card">
+        <h2 style="color: #27ae60; border-bottom: 1px solid #eee; padding-bottom: 10px;">👑 精灵王/奉神</h2>
+
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header">
+                    <b>精灵王</b>
+                    <span id="king-stat">0 / 0 (0%)</span> </div>
+                <progress id="king-bar" value="0" max="100"></progress> </div>
+            <div class="pet-group" id="king-pet-list"></div> </div>
+
+        <hr style="margin: 30px 0; border: 0; border-top: 1px dashed #ddd;">
+
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header">
+                    <b>奉神</b>
+                    <span id="divine-stat">0 / 0 (0%)</span> </div>
+                <progress id="divine-bar" value="0" max="100"></progress> </div>
+            <div class="pet-group" id="divine-pet-list"></div> </div>
+    </div>
+
+    <div id="awaken-section" class="card">
+        <h2 style="color: #3498db;">✨ 觉醒重生系列</h2>
+        
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header">
+                    <span>常驻觉醒重生</span>
+                    <span id="awaken-fixed-stat">0 / 0 (0%)</span> </div>
+                <progress id="awaken-fixed-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="awaken-fixed-list"></div> 
+        </div>
+
+        <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header"><span>年费</span> <span id="annual-stat">0 / 0 (0%)</span></div>
+                <progress id="annual-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="annual-list"></div> 
+        </div>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header"><span>精灵王 (特殊)</span> <span id="king-alt-stat">0 / 0 (0%)</span></div>
+                <progress id="king-alt-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="king-alt-list"></div> 
+        </div>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header"><span>不定时活动回归</span> <span id="return-stat">0 / 0 (0%)</span></div>
+                <progress id="return-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="return-list"></div> 
+        </div>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header"><span>论坛宠物</span> <span id="bbs-stat">0 / 0 (0%)</span></div>
+                <progress id="bbs-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="bbs-list"></div> 
+        </div>
+
+        
+    </div>
+
+    <div id="sentry-section" class="card">
+        <h2 style="color: #53922e; border-bottom: 1px solid #eee; padding-bottom: 10px;">🛡️ 哨兵因因</h2>
+        
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header"><span>蛋不可交易</span> <span id="sentry-no-stat">0/0 (0%)</span></div>
+                <progress id="sentry-no-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="sentry-no-list"></div>
+        </div>
+
+        <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header"><span>蛋可以交易</span> <span id="sentry-yes-stat">0/0 (0%)</span></div>
+                <progress id="sentry-yes-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="sentry-yes-list"></div>
+        </div>
+    </div>
+
+    <div id="annual-section" class="card">
+        <h2 style="color: #e74c3c; border-bottom: 1px solid #eee; padding-bottom: 10px;">🧧 年费系列</h2>
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header"><span>新年费</span> <span id="annual-new-stat">0/0 (0%)</span></div>
+                <progress id="annual-new-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="annual-new-list"></div>
+        </div>
+
+        <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header"><span>老年费</span> <span id="annual-old-stat">0/0 (0%)</span></div>
+                <progress id="annual-old-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="annual-old-list"></div>
+        </div>
+    </div>
+
+    <div id="gacha-section" class="card">
+        <h2 style="color: #9b59b6; border-bottom: 1px solid #eee; padding-bottom: 10px;">🎰 扭蛋机</h2>
+        <div class="progress-box">
+            <div class="progress-header"><span>扭蛋机专属</span> <span id="gacha-stat">0/0 (0%)</span></div>
+            <progress id="gacha-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="gacha-list"></div>
+    </div>
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>洛克王国全图鉴进度 - 框架测试版</title>
+    <style>
+        :root { --main-blue: #3498db; --bg: #f4f7f9; }
+        body { display: flex; font-family: 'PingFang SC', sans-serif; margin: 0; background: var(--bg); }
+        
+        /* 左侧导航栏 */
+        nav { width: 220px; background: #fff; height: 100vh; position: sticky; top: 0; border-right: 1px solid #e0e0e0; padding: 20px; }
+        nav h2 { font-size: 1.2rem; color: var(--main-blue); border-bottom: 2px solid; padding-bottom: 10px; }
+        nav ul { list-style: none; padding: 0; }
+        nav li { margin: 15px 0; }
+        nav a { text-decoration: none; color: #666; font-weight: 500; transition: 0.3s; }
+        nav a:hover { color: var(--main-blue); padding-left: 5px; }
+
+        /* 右侧内容区 */
+        main { flex: 1; padding: 40px; max-width: 1000px; }
+        .card { background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        
+        /* 进度条 */
+        .progress-box { margin: 15px 0; }
+        .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; color: #444; }
+        progress { width: 100%; height: 10px; border-radius: 5px; accent-color: var(--main-blue); }
+        
+        /* 宠物网格 */
+        .pet-group { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 20px; }
+        .pet-item { background: #fafafa; padding: 10px; border-radius: 6px; border: 1px solid #eee; font-size: 0.85rem; display: flex; align-items: center; cursor: pointer; }
+        .pet-item:hover { background: #f0f7ff; border-color: var(--main-blue); }
+        .pet-item input { margin-right: 8px; }
+    </style>
+</head>
+
+
+<body>
+
+<nav>
+    <h2>其他分类</h2>
+    <div class="search-section" style="padding: 15px; border-bottom: 1px solid #eee;">
+    <input type="text" id="pet-search" placeholder="输入名字或编号搜索..." 
+           style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+    </div>
+    <ul>
+        <li><a href="#total-section">精灵王/奉神</a></li>
+        <li><a href="#normal-section">觉醒重生</a></li>
+        <li><a href="#limited-section">哨兵因因</a></li>
+        <li><a href="#pay-section">年费</a></li>
+        <li><a href="#extinct-section">扭蛋机</a></li>
+    </ul>
+    
+    
+</nav>
+
+<main>
+    <div id="normal-section" class="card">
+        <h2 style="color: #27ae60; border-bottom: 1px solid #eee; padding-bottom: 10px;">精灵王/奉神</h2>
+
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header">
+                    <b>精灵王</b>
+                    <span id="scene-stat">0 / 0 (0%)</span>
+                </div>
+                <progress id="scene-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="scene-pet-list"></div>
+        </div>
+
+        <hr style="margin: 30px 0; border: 0; border-top: 1px dashed #ddd;">
+
+        <div class="sub-category">
+            <div class="progress-box">
+                <div class="progress-header">
+                    <b>奉神</b>
+                    <span id="fixed-stat">0 / 0 (0%)</span>
+                </div>
+                <progress id="fixed-bar" value="0" max="100"></progress>
+            </div>
+            <div class="pet-group" id="fixed-pet-list"></div>
+        </div>
+    </div>
+
+    <div id="limited-section" class="card">
+    <h2>觉醒重生</h2>
+    
+    <div class="sub-category">
+        <div class="progress-box">
+            <div class="progress-header">
+                <span>常驻觉醒重生</span>
+                <span id="news-stat">0 / 0 (0%)</span>
+            </div>
+            <progress id="news-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="news-pet-list"></div> </div>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+
+    <div class="sub-category">
+        <div class="progress-box">
+            <div class="progress-header">
+                <span>年费</span>
+                <span id="bbs-stat">0 / 0 (0%)</span>
+            </div>
+            <progress id="bbs-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="bbs-pet-list"></div> 
+    </div>
+    
+    <hr style="margin: 30px 0; border: 0; border-top: 1px dashed #ddd;">
+
+    <div class="sub-category">
+        <div class="progress-box">
+            <div class="progress-header">
+                <span>精灵王</span>
+                <span id="bbs-stat">0 / 0 (0%)</span>
+            </div>
+            <progress id="bbs-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="bbs-pet-list"></div> 
+    </div>
+    
+    <hr style="margin: 30px 0; border: 0; border-top: 1px dashed #ddd;">
+
+    <div class="sub-category">
+        <div class="progress-box">
+            <div class="progress-header">
+                <span>不定时活动回归</span>
+                <span id="bbs-stat">0 / 0 (0%)</span>
+            </div>
+            <progress id="bbs-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="bbs-pet-list"></div> 
+    
+    </div>
+    <hr style="margin: 30px 0; border: 0; border-top: 1px dashed #ddd;">
+
+    <div class="sub-category">
+        <div class="progress-box">
+            <div class="progress-header">
+                <span>论坛宠物</span>
+                <span id="bbs-stat">0 / 0 (0%)</span>
+            </div>
+            <progress id="bbs-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="bbs-pet-list"></div> </div>
+ </div>
+
+
+
+    <div id="pay-section" class="card">
+    <h2 style="color: #53922e; border-bottom: 1px solid #eee; padding-bottom: 10px;">哨兵因因</h2>
+    
+    <div class="sub-category">
+        <div class="progress-box">
+            <div class="progress-header"><span>蛋不可交易</span> <span id="pay-fixed-stat">0/0 (0%)</span></div>
+            <progress id="pay-fixed-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="pay-fixed-list"></div>
+    </div>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+
+    <div class="sub-category" style="margin-top:20px;">
+        <div class="progress-box">
+            <div class="progress-header"><span>蛋可以交易</span> <span id="pay-limit-stat">0/0 (0%)</span></div>
+            <progress id="pay-limit-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="pay-limit-list"></div>
+    </div>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+
+    <div class="sub-category" style="margin-top:20px;">
+        <div class="progress-box">
+            <div class="progress-header"><span>密契兑换</span> <span id="pay-limit-stat">0/0 (0%)</span></div>
+            <progress id="pay-limit-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="pay-limit-list"></div>
+    </div>
+</div>
+
+<div id="extinct-section" class="card">
+    <h2 style="color: #95a5a6; border-bottom: 1px solid #eee; padding-bottom: 10px;">年费</h2>
+    <div class="progress-box">
+        <div class="progress-header"><span>新年费</span> <span id="extinct-stat">0/0 (0%)</span></div>
+        <progress id="extinct-bar" value="0" max="100"></progress>
+    </div>
+    <div class="pet-group" id="extinct-list"></div>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ddd;">
+    <div class="sub-category" style="margin-top:20px;">
+        <div class="progress-box">
+            <div class="progress-header"><span>老年费</span> <span id="pay-limit-stat">0/0 (0%)</span></div>
+            <progress id="pay-limit-bar" value="0" max="100"></progress>
+        </div>
+        <div class="pet-group" id="pay-limit-list"></div>
+    </div>
+
+</div>
+
+<div id="extinct-section" class="card">
+    <h2 style="color: #95a5a6; border-bottom: 1px solid #eee; padding-bottom: 10px;">扭蛋机</h2>
+    <div class="progress-box">
+        <div class="progress-header"><span>扭蛋机</span> <span id="extinct-stat">0/0 (0%)</span></div>
+        <progress id="extinct-bar" value="0" max="100"></progress>
+    </div>
+    <div class="pet-group" id="extinct-list"></div>
+</div>
+</main>
+
+<script src="script.js"></script>
+
+
+</body>
+</html> -->
