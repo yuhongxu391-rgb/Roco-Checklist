@@ -136,29 +136,42 @@ function update() {
         const items = document.querySelectorAll(selector);
         const checked = Array.from(items).filter(i => i.checked).length;
         const total = items.length;
-        const percent = total === 0 ? 0 : Math.round((checked/total)*100);
+        const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
         const bar = document.getElementById(barId);
         const text = document.getElementById(textId);
-        if(bar) bar.value = percent;
-        if(text) text.innerText = `${checked} / ${total} (${percent}%)`;
+        if (bar) bar.value = percent;
+        if (text) text.innerText = `${checked} / ${total} (${percent}%)`;
     };
 
-    // 精灵王/奉神
-    updateBar('.pet-cb[data-cat="king"]', 'king-bar', 'king-stat');
-    updateBar('.pet-cb[data-cat="divine"]', 'divine-bar', 'divine-stat');
-    
-    // 觉醒重生系列（5个全部补齐）
-    updateBar('.pet-cb[data-cat="awaken-fixed"]', 'awaken-fixed-bar', 'awaken-fixed-stat');
-    updateBar('.pet-cb[data-cat="annual"]', 'annual-bar', 'annual-stat');
-    updateBar('.pet-cb[data-cat="king-alt"]', 'king-alt-bar', 'king-alt-stat');
-    updateBar('.pet-cb[data-cat="return"]', 'return-bar', 'return-stat');
-    updateBar('.pet-cb[data-cat="bbs"]', 'bbs-bar', 'bbs-stat');
+    // 🚀 1. 无论哪个页面，都要统计全图鉴总进度
+    updateBar('.pet-cb', 'total-bar', 'total-stat');
 
-    // 哨兵等其他
-    updateBar('.pet-cb[data-cat="sentry-no"]', 'pay-fixed-bar', 'pay-fixed-stat');
-    updateBar('.pet-cb[data-cat="sentry-yes"]', 'pay-limit-bar', 'pay-limit-stat');
+    // 🚀 2. 识别当前页面路径
+    const isOthersPage = window.location.pathname.includes('others.html');
+
+    if (isOthersPage) {
+        // --- 特殊分类页 (others.html) 统计逻辑 ---
+        updateBar('.pet-cb[data-cat="king"]', 'king-bar', 'king-stat');
+        updateBar('.pet-cb[data-cat="divine"]', 'divine-bar', 'divine-stat');
+        updateBar('.pet-cb[data-cat="awaken-fixed"]', 'awaken-fixed-bar', 'awaken-fixed-stat');
+        updateBar('.pet-cb[data-cat="annual"]', 'annual-bar', 'annual-stat');
+        updateBar('.pet-cb[data-cat="king-alt"]', 'king-alt-bar', 'king-alt-stat');
+        updateBar('.pet-cb[data-cat="return"]', 'return-bar', 'return-stat');
+        updateBar('.pet-cb[data-cat="bbs"]', 'bbs-bar', 'bbs-stat');
+        updateBar('.pet-cb[data-cat="sentry-no"]', 'pay-fixed-bar', 'pay-fixed-stat');
+        updateBar('.pet-cb[data-cat="sentry-yes"]', 'pay-limit-bar', 'pay-limit-stat');
+    } else {
+        // --- 主页 (index.html) 统计逻辑 ---
+        updateBar('.pet-cb[data-cat="scene"]', 'scene-bar', 'scene-stat');
+        updateBar('.pet-cb[data-cat="fixed-act"]', 'fixed-bar', 'fixed-stat');
+        updateBar('.pet-cb[data-cat="news"]', 'news-bar', 'news-stat');
+        updateBar('.pet-cb[data-cat="pay-fixed"]', 'pay-fixed-bar', 'pay-fixed-stat');
+        updateBar('.pet-cb[data-cat="pay-limit"]', 'pay-limit-bar', 'pay-limit-stat');
+        updateBar('.pet-cb[data-cat="extinct"]', 'extinct-bar', 'extinct-stat');
+        // 💡 补充主页的论坛宠物统计
+        updateBar('.pet-cb[data-cat="bbs"]', 'bbs-bar', 'bbs-stat');
+    }
 }
-
 init();
 
 
